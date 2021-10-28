@@ -26,6 +26,11 @@ public class Letter extends Document{
         this.signed(true);
     }
 
+    @Override
+    public String getSigner() {
+        return "";
+    }
+
     public Document createDocument() {
         Document doc = new Letter();
         doc.type = DocumentTypes.LETTER;

@@ -1,20 +1,31 @@
-public class Order extends Document{
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+
+public class ApprovalSheet extends MultiSignedDocument{
+
+    ApprovalSheet(Document doc) {
+        super(doc);
+    }
+
+    ApprovalSheet() {
+        super();
+    }
 
     @Override
     public void show() {
         System.out.println("<-----show " + type);
-        System.out.println(getHeader());
         System.out.println(getBody());
-        System.out.println(getFooter());
         if(isSigned()){
             System.out.println("--- SIGNED! ---");
+            System.out.println(getSigner());
         }
     }
 
     @Override
     public void plot() {
         System.out.println("<-----plot");
-        System.out.println("plot order");
+        System.out.println("plot approval sheet");
     }
 
     @Override
@@ -22,24 +33,15 @@ public class Order extends Document{
         System.out.println("Can't send");
     }
 
-    @Override
-    public void sign() {
-        this.signed(true);
-    }
-
-    @Override
-    public String getSigner() {
-        return signer;
-    }
-
     public Document createDocument() {
-        Document doc = new Order();
-        doc.type = DocumentTypes.ORDER;
+        Document doc = new ApprovalSheet();
+        doc.type = DocumentTypes.APPROVAL_SHEET;
         doc.haveBody = true;
-        doc.haveFooter = true;
-        doc.haveHeader = true;
+        doc.haveFooter = false;
+        doc.haveHeader = false;
         doc.haveSigne = true;
         doc.haveAddress = false;
         return doc;
     }
+
 }

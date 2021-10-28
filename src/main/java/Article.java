@@ -16,13 +16,17 @@ public class Article extends Document {
 
     @Override
     public void send() {
-        System.out.println("<-----send");
-        System.out.println("send article");
+        System.out.println("Can't send");
     }
 
     @Override
     public void sign() {
         this.signed(true);
+    }
+
+    @Override
+    public String getSigner() {
+        return "";
     }
 
     public Document createDocument() {

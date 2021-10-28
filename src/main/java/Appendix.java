@@ -1,11 +1,9 @@
-public class Order extends Document{
+public class Appendix extends Document{
 
     @Override
     public void show() {
         System.out.println("<-----show " + type);
-        System.out.println(getHeader());
         System.out.println(getBody());
-        System.out.println(getFooter());
         if(isSigned()){
             System.out.println("--- SIGNED! ---");
         }
@@ -14,7 +12,7 @@ public class Order extends Document{
     @Override
     public void plot() {
         System.out.println("<-----plot");
-        System.out.println("plot order");
+        System.out.println("plot appendix");
     }
 
     @Override
@@ -33,13 +31,14 @@ public class Order extends Document{
     }
 
     public Document createDocument() {
-        Document doc = new Order();
-        doc.type = DocumentTypes.ORDER;
+        Document doc = new Appendix();
+        doc.type = DocumentTypes.APPENDIX;
         doc.haveBody = true;
-        doc.haveFooter = true;
-        doc.haveHeader = true;
+        doc.haveFooter = false;
+        doc.haveHeader = false;
         doc.haveSigne = true;
         doc.haveAddress = false;
         return doc;
     }
+
 }
