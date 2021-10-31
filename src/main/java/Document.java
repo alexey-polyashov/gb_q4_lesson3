@@ -3,6 +3,7 @@ import java.io.Serializable;
 public abstract class Document implements Serializable{
 
     protected DocumentTypes type;
+    protected DocumentStates state;
 
     protected boolean haveHeader;
     protected boolean haveBody;

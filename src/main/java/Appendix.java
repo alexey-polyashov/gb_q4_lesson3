@@ -30,8 +30,8 @@ public class Appendix extends Document{
         return signer;
     }
 
-    public Document createDocument() {
-        Document doc = new Appendix();
+    public Appendix createDocument() {
+        Appendix doc = new Appendix();
         doc.type = DocumentTypes.APPENDIX;
         doc.haveBody = true;
         doc.haveFooter = false;

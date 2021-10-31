@@ -33,8 +33,8 @@ public class ApprovalSheet extends MultiSignedDocument{
         System.out.println("Can't send");
     }
 
-    public Document createDocument() {
-        Document doc = new ApprovalSheet();
+    public ApprovalSheet createDocument() {
+        ApprovalSheet doc = new ApprovalSheet();
         doc.type = DocumentTypes.APPROVAL_SHEET;
         doc.haveBody = true;
         doc.haveFooter = false;

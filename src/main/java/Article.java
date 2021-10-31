@@ -29,8 +29,8 @@ public class Article extends Document {
         return "";
     }
 
-    public Document createDocument() {
-        Document doc = new Article();
+    public Article createDocument() {
+        Article doc = new Article();
         doc.type = DocumentTypes.ARTICLE;
         doc.haveBody = true;
         doc.haveFooter = true;

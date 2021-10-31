@@ -32,8 +32,8 @@ public class Order extends Document{
         return signer;
     }
 
-    public Document createDocument() {
-        Document doc = new Order();
+    public Order createDocument() {
+        Order doc = new Order();
         doc.type = DocumentTypes.ORDER;
         doc.haveBody = true;
         doc.haveFooter = true;
