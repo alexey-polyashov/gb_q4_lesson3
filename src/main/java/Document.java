@@ -1,6 +1,9 @@
-public abstract class Document {
+import java.io.Serializable;
+
+public abstract class Document implements Serializable{
 
     protected DocumentTypes type;
+    protected DocumentStates state;
 
     protected boolean haveHeader;
     protected boolean haveBody;
@@ -14,6 +17,8 @@ public abstract class Document {
     protected String address;
     protected String sender;
     protected boolean signed;
+
+    protected String signer;
 
     public abstract void show();
     public abstract void plot();
@@ -75,6 +80,17 @@ public abstract class Document {
         }
     }
 
+    public String getSigner(){
+        if(signed) {
+            return signer;
+        }else{
+            return "";
+        }
+    }
+    public void setSigner(String str){
+        signer(str);
+    }
+
     //Fabric method
     public abstract Document createDocument();
 
@@ -101,7 +117,14 @@ public abstract class Document {
     }
     public Document signed(boolean val){
         this.signed = val;
+        if(val==false){
+            this.signer = "";
+        }
         return this;
     }
-
+    public Document signer(String str){
+        this.signed = true;
+        this.signer = str;
+        return this;
+    }
 }

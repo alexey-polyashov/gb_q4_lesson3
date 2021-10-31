@@ -1,17 +1,18 @@
-public class Article extends Document {
+public class Appendix extends Document{
 
     @Override
     public void show() {
         System.out.println("<-----show " + type);
-        System.out.println(getHeader());
         System.out.println(getBody());
-        System.out.println(getFooter());
+        if(isSigned()){
+            System.out.println("--- SIGNED! ---");
+        }
     }
 
     @Override
     public void plot() {
         System.out.println("<-----plot");
-        System.out.println("plot article");
+        System.out.println("plot appendix");
     }
 
     @Override
@@ -26,16 +27,16 @@ public class Article extends Document {
 
     @Override
     public String getSigner() {
-        return "";
+        return signer;
     }
 
-    public Article createDocument() {
-        Article doc = new Article();
-        doc.type = DocumentTypes.ARTICLE;
+    public Appendix createDocument() {
+        Appendix doc = new Appendix();
+        doc.type = DocumentTypes.APPENDIX;
         doc.haveBody = true;
-        doc.haveFooter = true;
-        doc.haveHeader = true;
-        doc.haveSigne = false;
+        doc.haveFooter = false;
+        doc.haveHeader = false;
+        doc.haveSigne = true;
         doc.haveAddress = false;
         return doc;
     }

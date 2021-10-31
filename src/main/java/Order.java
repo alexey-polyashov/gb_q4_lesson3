@@ -19,8 +19,7 @@ public class Order extends Document{
 
     @Override
     public void send() {
-        System.out.println("<-----send");
-        System.out.println("send order");
+        System.out.println("Can't send");
     }
 
     @Override
@@ -28,8 +27,13 @@ public class Order extends Document{
         this.signed(true);
     }
 
-    public Document createDocument() {
-        Document doc = new Order();
+    @Override
+    public String getSigner() {
+        return signer;
+    }
+
+    public Order createDocument() {
+        Order doc = new Order();
         doc.type = DocumentTypes.ORDER;
         doc.haveBody = true;
         doc.haveFooter = true;

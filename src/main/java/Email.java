@@ -1,4 +1,19 @@
-public class Letter extends Document{
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.Collections;
+import java.util.List;
+
+public class Email extends Document{
+
+    private List<Base64> attachments = new ArrayList<>();
+
+    public List<Base64> getAttachments() {
+        return Collections.unmodifiableList(attachments);
+    }
+
+    public void addAttachments(Base64 attachments) {
+        this.attachments.add(attachments);
+    }
 
     @Override
     public void show() {
@@ -12,13 +27,13 @@ public class Letter extends Document{
     @Override
     public void plot() {
         System.out.println("<-----plot");
-        System.out.println("plot letter");
+        System.out.println("plot email");
     }
 
     @Override
     public void send() {
         System.out.println("<-----send");
-        System.out.println("send letter");
+        System.out.println("send email");
     }
 
     @Override
@@ -31,9 +46,9 @@ public class Letter extends Document{
         return "";
     }
 
-    public Letter createDocument() {
-        Letter doc = new Letter();
-        doc.type = DocumentTypes.LETTER;
+    public Email createDocument() {
+        Email doc = new Email();
+        doc.type = DocumentTypes.EMAIL;
         doc.haveBody = true;
         doc.haveFooter = true;
         doc.haveHeader = false;
