@@ -1,3 +1,8 @@
+package process;
+
+import users.User;
+import documents.Document;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -31,7 +36,7 @@ public class Task {
         setComment(comment);
         this.executor = executor;
         this.dateOfCompletion = new Date();
-        if(state!=TaskStates.NEW){
+        if(state!= TaskStates.NEW){
             System.out.println("TASK: task '" + this.describe + "' is done with status '" + state +"'");
             process.nextStep();
         }

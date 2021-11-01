@@ -1,9 +1,11 @@
+package documents;
+
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Collections;
 import java.util.List;
 
-public class Email extends Document{
+public class Email extends Document {
 
     private List<Base64> attachments = new ArrayList<>();
 

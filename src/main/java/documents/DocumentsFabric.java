@@ -1,3 +1,5 @@
+package documents;
+
 public class DocumentsFabric {
 
     public Document createDocument(DocumentTypes type){

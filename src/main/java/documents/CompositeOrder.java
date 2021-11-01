@@ -1,7 +1,14 @@
+package documents;
+
+import common.MapperRegistry;
+import mappers.DocumentMapper;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 //Composition
 public class CompositeOrder extends Document implements Serializable {
@@ -128,17 +135,68 @@ public class CompositeOrder extends Document implements Serializable {
         return co;
     }
 
+    //Strategy
+    @Override
+    public void optionalLoad() {
+
+        super.optionalLoad();
+
+        DocumentMapper documentMapper = MapperRegistry.getInstance().getDocumentMapper();
+        List<Optional<Document>> orders = documentMapper.findByParentId(getId(), DocumentTypes.ORDER);
+        if(orders.size()>0){
+            this.order = (Order)orders.get(0).orElse(this.order.createDocument());
+        }
+
+        List<Optional<Document>> aprSheet = documentMapper.findByParentId(getId(), DocumentTypes.APPROVAL_SHEET);
+        if(aprSheet.size()>0){
+            this.approvalSheet = (ApprovalSheet) aprSheet.get(0).orElse(this.approvalSheet.createDocument());
+        }
+
+        List<Optional<Document>> appendixes = documentMapper.findByParentId(getId(), DocumentTypes.APPENDIX);
+        if(appendixes.size()>0){
+            this.appendixList = appendixes.stream().
+                    map(p->(Appendix)p.orElse(new Appendix().createDocument()))
+                    .collect(Collectors.toList());
+        }
+
+    }
+    @Override
+    public void optionalSave() {
+
+        super.optionalSave();
+
+        DocumentMapper documentMapper = MapperRegistry.getInstance().getDocumentMapper();
+        documentMapper.deleteAllSlaves(getId());
+        documentMapper.insertSlave(getId(), this.order);
+        documentMapper.insertSlave(getId(), this.approvalSheet);
+
+        for(Appendix appendix: appendixList){
+            documentMapper.insertSlave(getId(), appendix);
+        }
+
+    }
+    @Override
+    public void optionalDelete() {
+
+        super.optionalSave();
+
+        DocumentMapper documentMapper = MapperRegistry.getInstance().getDocumentMapper();
+        documentMapper.deleteAllSlaves(getId());
+
+    }
+
     //Builder
-    CompositeOrder order(Order order){
+    public CompositeOrder order(Order order){
         this.order = order;
         return this;
     }
-    CompositeOrder appendix(Appendix appendix){
+    public CompositeOrder appendix(Appendix appendix){
         this.appendixList.add(appendix);
         return this;
     }
-    CompositeOrder approvalSheet(ApprovalSheet approvalSheet){
+    public CompositeOrder approvalSheet(ApprovalSheet approvalSheet){
         this.approvalSheet = approvalSheet;
         return this;
     }
+
 }

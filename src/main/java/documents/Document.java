@@ -1,9 +1,12 @@
+package documents;
+
 import java.io.Serializable;
 
 public abstract class Document implements Serializable{
 
     protected DocumentTypes type;
     protected DocumentStates state;
+    protected Long id;
 
     protected boolean haveHeader;
     protected boolean haveBody;
@@ -26,6 +29,14 @@ public abstract class Document implements Serializable{
     public abstract void sign();
 
     public Document(){
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public DocumentTypes getType() {
@@ -72,12 +83,25 @@ public abstract class Document implements Serializable{
         }
     }
 
+    public DocumentStates getState() {
+        return state;
+    }
+
     public boolean isSigned() {
         if(haveSigne){
             return signed;
         }else{
             return false;
         }
+    }
+
+    public void optionalLoad(){
+    }
+
+    public void optionalSave(){
+    }
+
+    public void optionalDelete(){
     }
 
     public String getSigner(){
@@ -125,6 +149,10 @@ public abstract class Document implements Serializable{
     public Document signer(String str){
         this.signed = true;
         this.signer = str;
+        return this;
+    }
+    public Document state(DocumentStates state){
+        this.state = state;
         return this;
     }
 }
