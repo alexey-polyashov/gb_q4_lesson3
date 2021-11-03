@@ -1,3 +1,5 @@
+package documents;
+
 public class Article extends Document {
 
     @Override

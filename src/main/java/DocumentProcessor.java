@@ -1,4 +1,11 @@
 
+import common.MapperRegistry;
+import users.User;
+import documents.*;
+import process.*;
+
+import java.sql.Connection;
+import java.sql.ConnectionBuilder;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -11,7 +18,15 @@ public class DocumentProcessor {
     private static Appendix appendix = new Appendix();
     private static ApprovalSheet approvalSheet = new ApprovalSheet();
 
+    private static Connection initConnection(){
+        //connection init
+        return null;
+    };
+
     public static void main(String[] args) {
+
+        MapperRegistry mapperRegistry = MapperRegistry.getInstance();
+        MapperRegistry.setConnection(initConnection());
 
         User author = new User("Aleksey", "Journalist");
         User director = new User("Ivan", "Director");
@@ -61,9 +76,9 @@ public class DocumentProcessor {
 
         PublishArticle process1 = new PublishArticle(article1, author);
         process1.start();
-        while(process1.getState()!=TaskChainStates.STOPPED){
+        while(process1.getState()!= TaskChainStates.STOPPED){
             Task task = process1.getCurrentTask();
-            if(task.getType()==TaskTypes.AGREEMENT){
+            if(task.getType()== TaskTypes.AGREEMENT){
                 task.setState(TaskStates.AGREED, "ok!", director);
             }else{
                 task.setState(TaskStates.DONE, "ok!", author);

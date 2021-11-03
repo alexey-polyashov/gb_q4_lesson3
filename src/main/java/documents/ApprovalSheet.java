@@ -1,14 +1,12 @@
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+package documents;
 
-public class ApprovalSheet extends MultiSignedDocument{
+public class ApprovalSheet extends MultiSignedDocument {
 
-    ApprovalSheet(Document doc) {
+    public ApprovalSheet(Document doc) {
         super(doc);
     }
 
-    ApprovalSheet() {
+    public ApprovalSheet() {
         super();
     }
 

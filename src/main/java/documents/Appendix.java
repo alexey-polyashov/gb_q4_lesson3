@@ -1,4 +1,6 @@
-public class Appendix extends Document{
+package documents;
+
+public class Appendix extends Document {
 
     @Override
     public void show() {

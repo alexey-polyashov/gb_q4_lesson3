@@ -1,24 +1,27 @@
-public class Letter extends Document{
+package documents;
+
+public class Order extends Document {
 
     @Override
     public void show() {
         System.out.println("<-----show " + type);
+        System.out.println(getHeader());
         System.out.println(getBody());
         System.out.println(getFooter());
-        System.out.println("ADDRESS: " + getAddress());
-        System.out.println("SENDER: " + getSender());
+        if(isSigned()){
+            System.out.println("--- SIGNED! ---");
+        }
     }
 
     @Override
     public void plot() {
         System.out.println("<-----plot");
-        System.out.println("plot letter");
+        System.out.println("plot order");
     }
 
     @Override
     public void send() {
-        System.out.println("<-----send");
-        System.out.println("send letter");
+        System.out.println("Can't send");
     }
 
     @Override
@@ -28,17 +31,17 @@ public class Letter extends Document{
 
     @Override
     public String getSigner() {
-        return "";
+        return signer;
     }
 
-    public Letter createDocument() {
-        Letter doc = new Letter();
-        doc.type = DocumentTypes.LETTER;
+    public Order createDocument() {
+        Order doc = new Order();
+        doc.type = DocumentTypes.ORDER;
         doc.haveBody = true;
         doc.haveFooter = true;
-        doc.haveHeader = false;
-        doc.haveSigne = false;
-        doc.haveAddress = true;
+        doc.haveHeader = true;
+        doc.haveSigne = true;
+        doc.haveAddress = false;
         return doc;
     }
 }

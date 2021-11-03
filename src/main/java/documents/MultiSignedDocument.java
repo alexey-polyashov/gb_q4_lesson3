@@ -1,8 +1,11 @@
+package documents;
+
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 //Decorator
-public abstract class MultiSignedDocument extends Document{
+public abstract class MultiSignedDocument extends Document {
 
     private List<String> signers = new ArrayList<>();
 
@@ -50,4 +53,7 @@ public abstract class MultiSignedDocument extends Document{
         signers.clear();
     }
 
+    public List<String> getSigners() {
+        return Collections.unmodifiableList(signers);
+    }
 }

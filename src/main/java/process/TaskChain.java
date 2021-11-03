@@ -1,3 +1,5 @@
+package process;
+
 public interface TaskChain {
     public void stop();
     public void nextStep();
