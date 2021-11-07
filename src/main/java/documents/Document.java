@@ -7,6 +7,7 @@ public abstract class Document implements Serializable{
     protected DocumentTypes type;
     protected DocumentStates state;
     protected Long id;
+    protected boolean edit;
 
     protected boolean haveHeader;
     protected boolean haveBody;
@@ -154,5 +155,13 @@ public abstract class Document implements Serializable{
     public Document state(DocumentStates state){
         this.state = state;
         return this;
+    }
+
+    public Boolean isEdit() {
+        return edit;
+    }
+
+    public void setOnEdit(Boolean edit) {
+        this.edit = edit;
     }
 }
