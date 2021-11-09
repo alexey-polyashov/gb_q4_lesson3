@@ -45,17 +45,7 @@ public class DocumentMapper {
 
                 while (resultSet.next()) {
                     Document docFabric = (Document) docType.getDocumentClass().getDeclaredConstructor().newInstance();
-                    Document newDoc = docFabric.createDocument()
-                            .state(DocumentStates.valueOf(resultSet.getString(3)))
-                            .header(resultSet.getString(4))
-                            .body(resultSet.getString(5))
-                            .footer(resultSet.getString(6))
-                            .address(resultSet.getString(7))
-                            .sender(resultSet.getString(8))
-                            .signed(resultSet.getBoolean(9))
-                            .signer(resultSet.getString(10));
-
-                    newDoc.setId(resultSet.getLong(1));
+                    Document newDoc = fillDocumentByResult(docFabric, resultSet);
 
                     if (newDoc instanceof MultiSignedDocument) {
                         while (resultSet.next()) {
@@ -94,17 +84,7 @@ public class DocumentMapper {
                 String stringDocType = resultSet.getString(2);
                 DocumentTypes docType = DocumentTypes.valueOf(stringDocType);
                 Document docFabric = (Document)docType.getDocumentClass().getDeclaredConstructor().newInstance();
-                Document newDoc = docFabric.createDocument()
-                        .state(DocumentStates.valueOf(resultSet.getString(3)))
-                        .header(resultSet.getString(4))
-                        .body(resultSet.getString(5))
-                        .footer(resultSet.getString(6))
-                        .address(resultSet.getString(7))
-                        .sender(resultSet.getString(8))
-                        .signed(resultSet.getBoolean(9))
-                        .signer(resultSet.getString(10));
-
-                newDoc.setId(resultSet.getLong(1));
+                Document newDoc = fillDocumentByResult(docFabric, resultSet);
 
                 if(newDoc instanceof MultiSignedDocument){
                     while (resultSet.next()) {
@@ -120,19 +100,26 @@ public class DocumentMapper {
         throw new ResourceNotFound(String.format("Document with id '%i' not found", id));
     }
 
+    private Document fillDocumentByResult(Document docFabric, ResultSet resultSet) throws SQLException {
+        Document newDoc = docFabric.createDocument()
+                .state(DocumentStates.valueOf(resultSet.getString(3)))
+                .header(resultSet.getString(4))
+                .body(resultSet.getString(5))
+                .footer(resultSet.getString(6))
+                .address(resultSet.getString(7))
+                .sender(resultSet.getString(8))
+                .signed(resultSet.getBoolean(9))
+                .signer(resultSet.getString(10));
+
+        newDoc.setId(resultSet.getLong(1));
+        return newDoc;
+    }
+
     public void update(Document document) throws SQLException {
 
         PreparedStatement statement = connection.prepareStatement(
                 "UPDATE documents SET type=?, state=?, header=?, body=?, footer=?, address=?, sender=?, signed=?, signer=? WHERE id = ?");
-        statement.setString(1, document.getType().name());
-        statement.setString(2, document.getState().name());
-        statement.setString(3, document.getHeader());
-        statement.setString(4, document.getBody());
-        statement.setString(5, document.getFooter());
-        statement.setString(6, document.getAddress());
-        statement.setString(7, document.getSender());
-        statement.setBoolean(8, document.isSigned());
-        statement.setString(9, document.getSigner());
+        fillStatementForInsert(statement, document);
         statement.executeUpdate();
 
         if(document instanceof MultiSignedDocument){
@@ -151,15 +138,7 @@ public class DocumentMapper {
         PreparedStatement statement = connection.prepareStatement(
                 "INSERT INTO documents (type, state, header, body, footer, address, sender, signed, signer) " +
                         "VALUES (?,?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
-        statement.setString(1, document.getType().name());
-        statement.setString(2, document.getState().name());
-        statement.setString(3, document.getHeader());
-        statement.setString(4, document.getBody());
-        statement.setString(5, document.getFooter());
-        statement.setString(6, document.getAddress());
-        statement.setString(7, document.getSender());
-        statement.setBoolean(8, document.isSigned());
-        statement.setString(9, document.getSigner());
+        fillStatementForInsert(statement, document);
 
         int affectedRows = statement.executeUpdate();
         if(affectedRows==1){
@@ -179,6 +158,18 @@ public class DocumentMapper {
 
         document.optionalSave();
 
+    }
+
+    private void fillStatementForInsert(PreparedStatement statement, Document document) throws SQLException {
+        statement.setString(1, document.getType().name());
+        statement.setString(2, document.getState().name());
+        statement.setString(3, document.getHeader());
+        statement.setString(4, document.getBody());
+        statement.setString(5, document.getFooter());
+        statement.setString(6, document.getAddress());
+        statement.setString(7, document.getSender());
+        statement.setBoolean(8, document.isSigned());
+        statement.setString(9, document.getSigner());
     }
 
     public void delete(Document document) throws SQLException {

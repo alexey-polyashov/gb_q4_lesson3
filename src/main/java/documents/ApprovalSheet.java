@@ -11,22 +11,6 @@ public class ApprovalSheet extends MultiSignedDocument {
     }
 
     @Override
-    public void show() {
-        System.out.println("<-----show " + type);
-        System.out.println(getBody());
-        if(isSigned()){
-            System.out.println("--- SIGNED! ---");
-            System.out.println(getSigner());
-        }
-    }
-
-    @Override
-    public void plot() {
-        System.out.println("<-----plot");
-        System.out.println("plot approval sheet");
-    }
-
-    @Override
     public void send() {
         System.out.println("Can't send");
     }
