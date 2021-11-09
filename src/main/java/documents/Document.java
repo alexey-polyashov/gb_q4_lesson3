@@ -7,6 +7,7 @@ public abstract class Document implements Serializable{
     protected DocumentTypes type;
     protected DocumentStates state;
     protected Long id;
+    protected boolean edit;
 
     protected boolean haveHeader;
     protected boolean haveBody;
@@ -23,10 +24,41 @@ public abstract class Document implements Serializable{
 
     protected String signer;
 
-    public abstract void show();
-    public abstract void plot();
-    public abstract void send();
-    public abstract void sign();
+    public void show(){
+        System.out.println("<-----show " + type);
+        if(this.haveHeader) {
+            System.out.println(getHeader());
+        }
+        if(this.haveBody) {
+            System.out.println(getBody());
+        }
+        if(this.haveFooter) {
+            System.out.println(getFooter());
+        }
+        if(this.haveAddress) {
+            System.out.println("ADDRESS: " + getAddress());
+        }
+        if(this.haveSigne) {
+            if(isSigned()){
+                System.out.println("--- SIGNED! ---");
+            }
+            System.out.println("    SENDER: " + getSender());
+        }
+
+    };
+    public void plot(){
+        System.out.println("<-----plot");
+        System.out.println("plot " + type);
+    }
+    public void send(){
+        System.out.println("<-----send");
+        System.out.println("send " + type);
+    }
+    public void sign(){
+        if(haveSigne) {
+            this.signed(true);
+        }
+    }
 
     public Document(){
     }
@@ -154,5 +186,13 @@ public abstract class Document implements Serializable{
     public Document state(DocumentStates state){
         this.state = state;
         return this;
+    }
+
+    public Boolean isEdit() {
+        return edit;
+    }
+
+    public void setOnEdit(Boolean edit) {
+        this.edit = edit;
     }
 }

@@ -17,37 +17,6 @@ public class Email extends Document {
         this.attachments.add(attachments);
     }
 
-    @Override
-    public void show() {
-        System.out.println("<-----show " + type);
-        System.out.println(getBody());
-        System.out.println(getFooter());
-        System.out.println("ADDRESS: " + getAddress());
-        System.out.println("SENDER: " + getSender());
-    }
-
-    @Override
-    public void plot() {
-        System.out.println("<-----plot");
-        System.out.println("plot email");
-    }
-
-    @Override
-    public void send() {
-        System.out.println("<-----send");
-        System.out.println("send email");
-    }
-
-    @Override
-    public void sign() {
-        this.signed(true);
-    }
-
-    @Override
-    public String getSigner() {
-        return "";
-    }
-
     public Email createDocument() {
         Email doc = new Email();
         doc.type = DocumentTypes.EMAIL;
